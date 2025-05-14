@@ -22,6 +22,19 @@ A fully frontend patient registration system built using **React**, **Vite**, **
 -  Fully frontend — no backend or external database required
 -  Clean, responsive UI with TailwindCSS
 
+## Key feture 
+Key Features / Implementation Highlights
+Unique Patient Identification:
+Each patient is assigned a UUID (Universally Unique Identifier) on creation to ensure every record is reliably distinct.
+This is critical for:
+
+Avoiding collisions in local DB entries.
+
+Supporting offline-first logic where records may be created across different tabs/sessions.
+
+Ensuring stable keys when syncing or exporting data.
+
+UUIDs are generated using the crypto.randomUUID() Web API.
 -------------------------+++++++++++++++++--------------+++++-------------
 
 ##  Live Demo
