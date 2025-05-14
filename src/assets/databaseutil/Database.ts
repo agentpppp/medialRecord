@@ -74,3 +74,16 @@ export const registation = async (patientData: any): Promise<any> => {
 
   return result.rows?.[0];
 };
+// Retrieves all patients from the database
+export const getAllPatients = async (): Promise<any[]> => {
+  const database = await initDatabase();
+  try {
+    const result = await database.query(
+      "SELECT * FROM patients ORDER BY name"
+    );
+    return result.rows || [];
+  } catch (error) {
+    console.error('Error executing getAllPatients query:', error);
+    throw error;
+  }
+};
