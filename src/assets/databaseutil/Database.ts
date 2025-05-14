@@ -87,3 +87,23 @@ export const getAllPatients = async (): Promise<any[]> => {
     throw error;
   }
 };
+
+/* Executes any custom SQL query with parameters*/
+
+export const executeQuery = async (
+  sqlQuery: string,
+  params: any[] = []
+): Promise<any> => {
+  try {
+    const database = await initDatabase();
+    const result = await database.query(sqlQuery, params);
+    return { success: true, data: result.rows || [], error: null };
+  } catch (error: any) {
+    console.error("Query execution error:", error);
+    return {
+      success: false,
+      data: [],
+      error: error.message || "An error occurred while executing the query",
+    };
+  }
+};
