@@ -1,13 +1,79 @@
-# React + Vite
+#  Patient Registration App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A fully frontend patient registration system built using **React**, **Vite**, **TailwindCSS**, and **PGlite** (SQLite in the browser via WebAssembly). This app allows users to register patients, view and search records using raw SQL, and persist data even across page reloads and tabs — without needing any backend.
 
-Currently, two official plugins are available:
+---+++++++++++++++-----------------------+++++++++++++++++--------------++++++++
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+##  Tech Stack
 
-## Expanding the ESLint configuration
+-  **React** – For building UI components
+-  **Vite** – Lightning-fast dev server and build tool
+-  **TailwindCSS** – Utility-first CSS framework for rapid UI styling
+-  **PGlite** – WebAssembly-based SQLite for the browser
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-# medialRecord
+---------------------++++++++++++++++++++---------------------+++++++++++++
+##  Features
+
+- Add new patient records
+-  View list of patients with detailed info
+-  Raw SQL-based search functionality
+-  Persistent data storage across page reloads using IndexedDB
+-  Multi-tab data synchronization
+-  Fully frontend — no backend or external database required
+-  Clean, responsive UI with TailwindCSS
+
+-------------------------+++++++++++++++++--------------+++++-------------
+
+##  Live Demo
+
+👉 [View the App on Vercel](https://med-rec-teal.vercel.app/)
+
+-------------------------++++++++++++++------------------
+
+## 📁 Project Structure
+
+.
+├── public/                     # Static assets
+├── src/
+│   └── assets/
+│       ├── components/         # Reusable UI components
+│       ├── db/                 # PGlite logic: init, query, sync
+│       ├── App.tsx            # Main app component
+│       └── index.tsx          # Entry point
+├── index.html                  # Main HTML file
+├── package.json                # Project dependencies and scripts
+├── vite.config.js              # Vite configuration
+├── vercel.toml                # Vercel deployment config
+├── eslint.config.js           # ESLint configuration
+└── README.md                  # Project documentation
+
+----------------------------------------------------++------------------
+
+
+## Install Dependencies
+npm install
+
+## Run the development server
+npm run dev
+
+## Build for production
+npm run build
+
+ ## Raw SQL Search
+ Users can search patient records using a flexible input field backed by raw SQL. For example:
+
+ SELECT * FROM patients WHERE name LIKE '%john%'
+
+Searches are directly executed on the PGlite database inside the browser.
+
+------------
+
+## Challenges faced
+While working with PGlite in a Vite project, I hit a confusing error in the browser console:
+"Invalid FS bundle size" — which completely broke the database initialization.
+
+It wasn’t immediately clear what was causing it, so I had to dive deep into PGlite’s documentation and even its source code to understand how the WebAssembly module was loading and how it interacted with IndexedDB. After some trial and error, I figured out a workaround specific to how Vite handles assets and module loading, which finally got it working.
+
+Aside from that, I built support for raw SQL input, making sure the UI could handle invalid queries gracefully without crashing — giving flexibility without compromising stability.
+
+For multi-tab syncing, I used the storage event and added reload logic so that changes in one tab would automatically show up in others, keeping everything in sync without conflict.
